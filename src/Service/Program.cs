@@ -1,27 +1,38 @@
-﻿using MessageBroker;
-using System;
-using System.Threading;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using MessageBroker;
 
 namespace Service
 {
-  class Program
+  public class Program
   {
-    static void Main(string[] args)
+    public static void Main(string[] args)
     {
-      Console.ReadKey();
-    }
-
-    private static void Service()
-    {
-      Console.WriteLine("");
+      Consumer();
+      BuildWebHost(args).Run();
     }
 
     static void Consumer()
     {
       Consumer consummer = new Consumer();
+
       consummer.Start("test-queue");
 
       Console.WriteLine("Running other Thread");
     }
+
+    public static IWebHost BuildWebHost(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .Build();
   }
+
+  
 }

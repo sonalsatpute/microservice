@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MessageBroker
 {
-  public class Consumer
+  public class Consumer : IDisposable
   {
     IBus _bus;
 
@@ -24,8 +24,34 @@ namespace MessageBroker
       {
         var message = Encoding.UTF8.GetString(body);
         Console.WriteLine(message);
+
       }));
     }
+
+    #region "IDisposable"
+
+    private bool _disposed;
+
+    public void Dispose()
+    {
+      Dispose(true);
+    }
+
+    void Dispose(bool disposing)
+    {
+      if (_disposed) return;
+
+      if (disposing)
+      {
+        // Free any other managed objects here. 
+        if (_bus != null) _bus.Dispose();
+      }
+
+      // Free any unmanaged objects here. 
+      _disposed = true;
+    }
+
+    #endregion
   }
 
 }
