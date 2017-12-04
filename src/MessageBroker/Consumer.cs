@@ -15,16 +15,15 @@ namespace MessageBroker
       _bus = RabbitHutch.CreateBus(@"host=localhost;virtualHost=/;username=sonal;password=password");
     }
 
-    public void Start(string queueName)
+    public void Start(string queueName, MessageHandler handler)
     {
-      Console.WriteLine("Start method");
-
       IQueue queue = new Queue(queueName, false);
       _bus.Advanced.Consume(queue, (body, properties, info) => Task.Factory.StartNew(() =>
       {
         var message = Encoding.UTF8.GetString(body);
-        Console.WriteLine(message);
-
+        
+        handler(message);
+        //Console.WriteLine(message);
       }));
     }
 
