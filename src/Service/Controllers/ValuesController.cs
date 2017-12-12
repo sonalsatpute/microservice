@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading;
 
 namespace Service.Controllers
 {
@@ -27,7 +28,7 @@ namespace Service.Controllers
     [HttpPost]
     public IActionResult Post([FromBody]Message message)
     {
-      //Thread.Sleep(10000);
+      Thread.Sleep(10000);
       if (message.Body.Equals("error")) return BadRequest();
       return Ok(message.Body);
     }

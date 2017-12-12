@@ -1,4 +1,4 @@
 ﻿namespace MessageBroker
 {
-  public delegate void MessageHandler(string message);
+  public delegate bool MessageHandler(string message);
 }
