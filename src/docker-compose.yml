@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  service:
+    image: service
+    build:
+      context: .
+      dockerfile: Service/Dockerfile
+
+  rabbitmq:
+    image: rabbitmq:3.7.4-management-alpine

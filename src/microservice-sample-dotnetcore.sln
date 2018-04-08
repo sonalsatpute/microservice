@@ -1,10 +1,12 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{35E31A46-2288-475C-92AA-01B099B4E9DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageBroker", "MessageBroker\MessageBroker.csproj", "{AF7080AE-697A-4106-AF19-478B673D586E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageBroker", "MessageBroker\MessageBroker.csproj", "{AF7080AE-697A-4106-AF19-478B673D586E}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{210C5EF4-BE51-4F3E-9BD8-D2C834F11B8F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +42,18 @@ Global
 		{AF7080AE-697A-4106-AF19-478B673D586E}.Release|x64.Build.0 = Release|Any CPU
 		{AF7080AE-697A-4106-AF19-478B673D586E}.Release|x86.ActiveCfg = Release|Any CPU
 		{AF7080AE-697A-4106-AF19-478B673D586E}.Release|x86.Build.0 = Release|Any CPU
+		{210C5EF4-BE51-4F3E-9BD8-D2C834F11B8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{210C5EF4-BE51-4F3E-9BD8-D2C834F11B8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{210C5EF4-BE51-4F3E-9BD8-D2C834F11B8F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{210C5EF4-BE51-4F3E-9BD8-D2C834F11B8F}.Debug|x64.Build.0 = Debug|Any CPU
+		{210C5EF4-BE51-4F3E-9BD8-D2C834F11B8F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{210C5EF4-BE51-4F3E-9BD8-D2C834F11B8F}.Debug|x86.Build.0 = Debug|Any CPU
+		{210C5EF4-BE51-4F3E-9BD8-D2C834F11B8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{210C5EF4-BE51-4F3E-9BD8-D2C834F11B8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{210C5EF4-BE51-4F3E-9BD8-D2C834F11B8F}.Release|x64.ActiveCfg = Release|Any CPU
+		{210C5EF4-BE51-4F3E-9BD8-D2C834F11B8F}.Release|x64.Build.0 = Release|Any CPU
+		{210C5EF4-BE51-4F3E-9BD8-D2C834F11B8F}.Release|x86.ActiveCfg = Release|Any CPU
+		{210C5EF4-BE51-4F3E-9BD8-D2C834F11B8F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
