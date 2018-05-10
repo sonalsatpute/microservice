@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
+using Entities;
 
 namespace Service.Controllers
 {
@@ -26,11 +24,12 @@ namespace Service.Controllers
 
     // POST api/values
     [HttpPost]
-    public IActionResult Post([FromBody]Message message)
+    public IActionResult Post([FromBody]TodoTask message)
     {
       Thread.Sleep(10000);
-      if (message.Body.Equals("error")) return BadRequest();
-      return Ok(message.Body);
+
+      if (message.Name.Equals("error")) return BadRequest();
+      return Ok(message.Name);
     }
 
     // PUT api/values/5

@@ -1,53 +1,48 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using MessageBroker;
-using Service.Client;
-using Newtonsoft.Json;
-using Service.Controllers;
-using System.Net.Http;
-using System.Net.Http.Headers;
-
+using Adaptor;
 
 namespace Service
 {
   public class Program
   {
-    static ValuesControllerClient _client = new ValuesControllerClient();
 
     public static void Main(string[] args)
     {
-      BuildWebHost(args).RunAsync();
       Consumer();
-
-      Console.ReadKey();
+      Console.ReadLine();
+      //BuildWebHost(args).RunAsync();
     }
 
-    static bool MessageHandler(string message)
-    {
-      Message m = JsonConvert.DeserializeObject<Message>(message);
-
-      var r = _client.AddAsync(m);
-      if (r) Console.WriteLine($"process success {message}");
-      else
-      {
-        Console.WriteLine("processing error!");
-      }
-
-      return r;
-    }
-
+   
     static void Consumer()
     {
-      Consumer consummer = new Consumer();
-     
-      consummer.Start("test-queue", MessageHandler);
+      Settings settings = new Settings("dev-rabbitmq-01")
+      {
+        AppId = "microservice-sample-dotnetcore",
+        ExchangeName = "dev-exchange",
+        UserName = "sonal",
+        Password = "sonal",
+        PrefetchCount = 3,
+        Timeout = 10,
+        VirtualHost = "/",
+        PersistentMessages = true
+      };
+
+      Connection connection = new Connection(settings);
+
+      if (!connection.Connect())
+      {
+        Console.WriteLine("Connection error");
+        return;
+      }
+
+      Worker worker = new Worker("");
+      connection.Subscribe("todo", worker.MessageHandler);
+
 
       Console.WriteLine("Consumer is ready.");
     }
@@ -55,8 +50,10 @@ namespace Service
     public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .ConfigureLogging((context, logging) =>
+                  {
+                    logging.ClearProviders();
+                  })
                 .Build();
   }
-
-  
 }
