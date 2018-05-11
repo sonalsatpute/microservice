@@ -16,7 +16,6 @@ namespace Service
       IConnection connection = (IConnection)provider.GetService(typeof(IConnection));
       
       Consumer(connection);
-
       host.Run();
     }
 
@@ -25,15 +24,12 @@ namespace Service
     {
       if (!connection.Connect())
       {
-        Console.WriteLine("Connection error");
-        return;
+        Console.WriteLine("Enable to connect to RabbitMQ.");
+        Environment.Exit(-1);
       }
 
-      Worker worker = new Worker("");
+      Worker worker = new Worker();
       connection.Subscribe("todo", worker.MessageHandler);
-
-
-      Console.WriteLine("Consumer is ready.");
     }
 
     public static IWebHost BuildWebHost(string[] args) =>
