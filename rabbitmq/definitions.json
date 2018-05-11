@@ -1,0 +1,61 @@
+{
+  "rabbit_version": "3.7.4",
+  "users": [{
+    "name": "sonal",
+    "password_hash": "ExG31r3fhTyXbB6HJF35gPDZCwzlyqutCv6hk3gcYbTfAQiu",
+    "hashing_algorithm": "rabbit_password_hashing_sha256",
+    "tags": "administrator"
+  }, {
+    "name": "guest",
+    "password_hash": "2iOtKg28orrJ84wW7Muivi5eUSGyTMbFMVMnCaOyzj1RBrw6",
+    "hashing_algorithm": "rabbit_password_hashing_sha256",
+    "tags": "administrator"
+  }],
+  "vhosts": [{
+    "name": "/"
+  }],
+  "permissions": [{
+    "user": "sonal",
+    "vhost": "/",
+    "configure": ".*",
+    "write": ".*",
+    "read": ".*"
+  }, {
+    "user": "guest",
+    "vhost": "/",
+    "configure": ".*",
+    "write": ".*",
+    "read": ".*"
+  }],
+  "topic_permissions": [],
+  "parameters": [],
+  "global_parameters": [{
+    "name": "cluster_name",
+    "value": "rabbit@dev-rabbitmq"
+  }],
+  "policies": [],
+  "queues": [{
+    "name": "todo",
+    "vhost": "/",
+    "durable": true,
+    "auto_delete": false,
+    "arguments": {}
+  }],
+  "exchanges": [{
+    "name": "dev-exchange",
+    "vhost": "/",
+    "type": "topic",
+    "durable": true,
+    "auto_delete": false,
+    "internal": false,
+    "arguments": {}
+  }],
+  "bindings": [{
+    "source": "dev-exchange",
+    "vhost": "/",
+    "destination": "todo",
+    "destination_type": "queue",
+    "routing_key": "#.todo",
+    "arguments": {}
+  }]
+}

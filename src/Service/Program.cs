@@ -20,7 +20,7 @@ namespace Service
    
     static void Consumer()
     {
-      Settings settings = new Settings("dev-rabbitmq-01")
+      Settings settings = new Settings("localhost")
       {
         AppId = "microservice-sample-dotnetcore",
         ExchangeName = "dev-exchange",
