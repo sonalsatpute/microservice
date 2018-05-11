@@ -15,21 +15,12 @@ namespace Adaptor
 
     public bool MessageHandler(string message)
     {
-      TodoTask task = JsonConvert.DeserializeObject<TodoTask>(message);
-      //var result = _client.Process(m);
-
-
-
-      Console.WriteLine($"{DateTime.Now.ToShortTimeString()} : {task.Name}");
       System.Threading.Thread.Sleep(TimeSpan.FromSeconds(5));
 
-      //if (result)
-      //  Console.WriteLine($"process success {value}");
-      //else
-      //  Console.WriteLine("processing error!");
+      TodoTask task = JsonConvert.DeserializeObject<TodoTask>(message);
+      Console.WriteLine($"{DateTime.Now.ToShortTimeString()} : {task.Name}");
 
       return true;
-
     }
   }
 }

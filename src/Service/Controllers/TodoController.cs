@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Entities;
+using MessageBroker;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,13 +14,20 @@ namespace Service.Controllers
   [Route("api/[controller]")]
   public class TodoController : Controller
   {
+    private readonly IConnection _connection;
+
+    public TodoController(IConnection connection)
+    {
+      _connection = connection;
+    }
 
     [HttpPost]
     public IActionResult Post([FromBody]TodoTask task)
     {
-      Thread.Sleep(10000);
-      //task.Id = Guid.NewGuid();
+      _connection.Connect();
+      task.Id = 1;// Guid.NewGuid();
       task.Time = DateTime.Now;
+      _connection.Publish<TodoTask>("#.todo", task);
 
       return Ok(task);
     }

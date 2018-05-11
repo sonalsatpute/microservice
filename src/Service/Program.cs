@@ -9,31 +9,20 @@ namespace Service
 {
   public class Program
   {
-
     public static void Main(string[] args)
     {
-      Consumer();
-      Console.ReadLine();
-      //BuildWebHost(args).RunAsync();
+      IWebHost host = BuildWebHost(args);
+      IServiceProvider provider = host.Services;
+      IConnection connection = (IConnection)provider.GetService(typeof(IConnection));
+      
+      Consumer(connection);
+
+      host.Run();
     }
 
    
-    static void Consumer()
+    static void Consumer(IConnection connection)
     {
-      Settings settings = new Settings("localhost")
-      {
-        AppId = "microservice-sample-dotnetcore",
-        ExchangeName = "dev-exchange",
-        UserName = "sonal",
-        Password = "sonal",
-        PrefetchCount = 3,
-        Timeout = 10,
-        VirtualHost = "/",
-        PersistentMessages = true
-      };
-
-      Connection connection = new Connection(settings);
-
       if (!connection.Connect())
       {
         Console.WriteLine("Connection error");

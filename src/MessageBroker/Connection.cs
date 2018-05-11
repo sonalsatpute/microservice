@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace MessageBroker
 {
-  public class Connection : IDisposable
+  public class Connection : IDisposable, IConnection
   {
-    private IExchange _exchange;
-    private ConnectionConfiguration _connection;
-    private MessageProperties _properties;
+    private readonly IExchange _exchange;
+    private readonly ConnectionConfiguration _connection;
+    private readonly MessageProperties _properties;
+
     private IBus _bus;
 
     public Connection(Settings settings)
