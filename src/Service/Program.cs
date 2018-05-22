@@ -3,7 +3,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using MessageBroker;
-using Adaptor;
+
 
 namespace Service
 {
@@ -29,8 +29,9 @@ namespace Service
         return;
       }
 
-      Worker worker = new Worker("");
+      Worker worker = new Worker();
       connection.Subscribe("todo", worker.MessageHandler);
+      connection.Subscribe("todo-x", worker.MessageHandler);
 
 
       Console.WriteLine("Consumer is ready.");
