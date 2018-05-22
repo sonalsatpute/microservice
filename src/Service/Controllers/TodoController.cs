@@ -31,6 +31,17 @@ namespace Service.Controllers
     /// <summary>
     /// Add new message in Queue
     /// </summary>
+    /// <remarks>
+    /// Sample request:
+    ///
+    ///     POST /Todo
+    ///     {
+    ///        "id": 1,
+    ///        "name": "Item1",
+    ///        "isComplete": true
+    ///     }
+    ///
+    /// </remarks>
     /// <param name="task"></param>
     /// <returns></returns>
     [HttpPost]
