@@ -10,17 +10,29 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Service.Controllers
 {
+  /// <summary>
+  /// Todo controller
+  /// </summary>
   [Produces("application/json")]
   [Route("api/[controller]")]
   public class TodoController : Controller
   {
     private readonly IConnection _connection;
 
+    /// <summary>
+    /// TodoController Constructor
+    /// </summary>
+    /// <param name="connection"></param>
     public TodoController(IConnection connection)
     {
       _connection = connection;
     }
 
+    /// <summary>
+    /// Add new message in Queue
+    /// </summary>
+    /// <param name="task"></param>
+    /// <returns></returns>
     [HttpPost]
     public IActionResult Post([FromBody]TodoTask task)
     {
