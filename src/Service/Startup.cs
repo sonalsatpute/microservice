@@ -37,7 +37,7 @@ namespace Service
     {
       if (env.IsDevelopment())
       {
-        app.UseDeveloperExceptionPage();
+        //app.UseDeveloperExceptionPage();
       }
 
       app.UseMvc();

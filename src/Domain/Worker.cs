@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using Entities;
+using MessageBroker;
 using Newtonsoft.Json;
 
 namespace Service
@@ -17,14 +18,6 @@ namespace Service
 
       //System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
       return true;
-    }
-  }
-
-  public class MessageProcessingException : ApplicationException
-  {
-    public MessageProcessingException(string message) : base(message)
-    {
-
     }
   }
 }
