@@ -44,9 +44,13 @@ namespace Service.Controllers
     /// </remarks>
     /// <param name="task"></param>
     /// <returns></returns>
+    /// <response code="201">Returns the newly created item</response>
+    /// <response code="400">If the item is null</response>  
     [HttpPost]
     public IActionResult Post([FromBody]TodoTask task)
     {
+      if (task == null) return BadRequest();
+
       _connection.Connect();
       task.Id = 1;// Guid.NewGuid();
       task.Time = DateTime.Now;
