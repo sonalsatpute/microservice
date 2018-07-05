@@ -3,3 +3,28 @@ version: '3'
 services:
   rabbitmq:
     image: rabbitmq:3.7.4-management-alpine
+  
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.3.0
+    container_name: elasticsearch
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - docker-elk
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.3.0
+    container_name: kibana
+    environment:
+      - "ELASTICSEARCH_URL=http://elasticsearch:9200"
+    ports:
+      - 5601:5601
+    networks:
+      - docker-elk
+    depends_on:
+      - elasticsearch
+
+networks:
+  docker-elk:
+    driver: bridge
