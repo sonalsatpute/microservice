@@ -7,17 +7,20 @@ using System.Threading.Tasks;
 
 namespace MessageBroker
 {
-  public class Connection : IDisposable
+  public class Connection : IDisposable, IConnection
   {
-    private IExchange _exchange;
-    private ConnectionConfiguration _connection;
-    private MessageProperties _properties;
+    private readonly Settings _settings;
+    private readonly IExchange _exchange;
+    private readonly ConnectionConfiguration _connection;
+    private readonly MessageProperties _properties;
+
     private IBus _bus;
 
     public Connection(Settings settings)
     {
       _exchange = new Exchange(settings.ExchangeName);
       _properties = new MessageProperties { AppId = settings.AppId };
+      _settings = settings;
 
       _connection = new ConnectionConfiguration
       {
@@ -35,6 +38,8 @@ namespace MessageBroker
     public bool Connect()
     {
       _bus = RabbitHutch.CreateBus(_connection, registerService => registerService.Register(_ => new NullLogger()));
+      _bus.Advanced.Container.Resolve<IConventions>().ErrorExchangeNamingConvention = info => _settings.ExchangeName + "_error";
+      _bus.Advanced.Container.Resolve<IConventions>().ErrorQueueNamingConvention = () => "error_queue";
       return _bus.IsConnected;
     }
 
@@ -42,6 +47,7 @@ namespace MessageBroker
     {
       IQueue queue = new Queue(queueName, false);
       _bus.Advanced.Consume(queue, (body, properties, info) => Task.Factory.StartNew(() => OnMessage(body, handler)));
+      
     }
 
     public void Publish<T>(string routingKey, T message) where T : class

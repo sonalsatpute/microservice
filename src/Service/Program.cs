@@ -3,47 +3,33 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using MessageBroker;
-using Adaptor;
+
 
 namespace Service
 {
   public class Program
   {
-
     public static void Main(string[] args)
     {
-      Consumer();
-      Console.ReadLine();
-      //BuildWebHost(args).RunAsync();
+      IWebHost host = BuildWebHost(args);
+      IServiceProvider provider = host.Services;
+      IConnection connection = (IConnection)provider.GetService(typeof(IConnection));
+      
+      Consumer(connection);
+      host.Run();
     }
 
    
-    static void Consumer()
+    static void Consumer(IConnection connection)
     {
-      Settings settings = new Settings("localhost")
-      {
-        AppId = "microservice-sample-dotnetcore",
-        ExchangeName = "dev-exchange",
-        UserName = "sonal",
-        Password = "sonal",
-        PrefetchCount = 3,
-        Timeout = 10,
-        VirtualHost = "/",
-        PersistentMessages = true
-      };
-
-      Connection connection = new Connection(settings);
-
       if (!connection.Connect())
       {
-        Console.WriteLine("Connection error");
-        return;
+        Console.WriteLine("Enable to connect to RabbitMQ.");
+        Environment.Exit(-1);
       }
 
-      Worker worker = new Worker("");
+      Worker worker = new Worker();
       connection.Subscribe("todo", worker.MessageHandler);
-
-
       Console.WriteLine("Consumer is ready.");
     }
 
