@@ -5,9 +5,24 @@ services:
   #  build:
   #    context: ./src/Service/
 
-  rabbitmq:
-    image: rabbitmq:3.7.4-management-alpine
+  #rabbitmq:
+  #  image: rabbitmq:3.7.4-management-alpine
   
+  logstash:
+    build:
+      context: logstash/
+    volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+    ports:
+      - "5000:5000"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - docker-elk
+    depends_on:
+      - elasticsearch
+
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.3.0
     container_name: elasticsearch
