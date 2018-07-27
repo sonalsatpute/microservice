@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using MessageBroker;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using MessageBroker;
-
 
 namespace Service
 {
@@ -12,14 +16,14 @@ namespace Service
     public static void Main(string[] args)
     {
       IWebHost host = BuildWebHost(args);
+
       IServiceProvider provider = host.Services;
       IConnection connection = (IConnection)provider.GetService(typeof(IConnection));
-      
+
       Consumer(connection);
       host.Run();
     }
 
-   
     static void Consumer(IConnection connection)
     {
       if (!connection.Connect())
