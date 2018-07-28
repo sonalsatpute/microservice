@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using MessageBroker;
 using Microsoft.AspNetCore;
@@ -28,7 +29,8 @@ namespace Service
     {
       if (!connection.Connect())
       {
-        Console.WriteLine("Enable to connect to RabbitMQ.");
+        Console.WriteLine("RabbitMQ: Connection fail");
+        //Thread.Sleep(TimeSpan.FromSeconds(30));
         Environment.Exit(-1);
       }
 

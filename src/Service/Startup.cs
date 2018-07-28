@@ -27,7 +27,8 @@ namespace Service
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-      Settings setting = new Settings("localhost")
+
+      Settings setting = new Settings("rabbitmq")
       {
         AppId = "microservice-sample-dotnetcore",
         ExchangeName = "dev-exchange",
@@ -38,10 +39,10 @@ namespace Service
         VirtualHost = "/",
         PersistentMessages = true
       };
+
       services.AddTransient<IConnection>(s => new Connection(setting));
 
-      // Register the Swagger generator, defining 1 or more Swagger documents
-      // Register the Swagger generator, defining 1 or more Swagger documents
+      // Register the Swagger generator, defining 1 or more 
       services.AddSwaggerGen(c =>
       {
         c.SwaggerDoc("v1", new Info

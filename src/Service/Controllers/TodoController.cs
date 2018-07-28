@@ -5,22 +5,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Service.Controllers
 {
-  /// <summary>
-  /// Todo controller
-  /// </summary>
-  [Produces("application/json")]
   [Route("api/[controller]")]
-  public class TodoController : Controller
+  [ApiController]
+  public class TodoController : ControllerBase
   {
     private readonly IConnection _connection;
-
     public TodoController(IConnection connection)
     {
       _connection = connection;
     }
 
     [HttpPost]
-    public IActionResult Post([FromBody]TodoTask task)
+    public ActionResult<TodoTask> Post(TodoTask task)
     {
       if (task == null) return BadRequest();
 
@@ -29,7 +25,8 @@ namespace Service.Controllers
       task.Time = DateTime.Now;
       _connection.Publish<TodoTask>("#.todo", task);
 
-      return Ok(task);
+      return task;
     }
+
   }
 }

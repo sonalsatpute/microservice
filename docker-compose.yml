@@ -1,52 +1,69 @@
 version: '3'
 
 services:
-  #app:
-  #  build:
-  #    context: ./src/Service/
-
-  #rabbitmq:
-  #  image: rabbitmq:3.7.4-management-alpine
+  todo-service:
+    build:
+      context: src/
+    ports:
+      - "5000:80" 
+    restart: on-failure:100
+    depends_on:
+      - rabbitmq
+    links:
+      - rabbitmq
+    networks:
+      - docker-elk
   
-  logstash:
+  rabbitmq:
     build:
-      context: logstash/
-    volumes:
-      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
-      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+      context: rabbitmq/
     ports:
-      - "5000:5000"
-    environment:
-      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+      - "15672:15672"
+      - "5672:5672"
+    logging:
+      driver: none
     networks:
       - docker-elk
-    depends_on:
-      - elasticsearch
+  
+  # logstash:
+  #   build:
+  #     context: logstash/
+  #   volumes:
+  #     - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+  #     - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+  #   ports:
+  #     - "5000:5000"
+  #   environment:
+  #     LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+  #   networks:
+  #     - docker-elk
+  #   depends_on:
+  #     - elasticsearch
 
-  elasticsearch:
-    build:
-      context: elasticsearch/
-    volumes:
-      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    environment:
-      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
-    networks:
-      - docker-elk
+  # elasticsearch:
+  #   build:
+  #     context: elasticsearch/
+  #   volumes:
+  #     - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+  #   ports:
+  #     - "9200:9200"
+  #     - "9300:9300"
+  #   environment:
+  #     ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+  #   networks:
+  #     - docker-elk
 
-  kibana:
-    build:
-      context: kibana/
-    volumes:
-      - ./kibana/config/:/usr/share/kibana/config:ro
-    ports:
-      - "5601:5601"
-    networks:
-      - docker-elk
-    depends_on:
-      - elasticsearch
+  # kibana:
+  #   build:
+  #     context: kibana/
+  #   volumes:
+  #     - ./kibana/config/:/usr/share/kibana/config:ro
+  #   ports:
+  #     - "5601:5601"
+  #   networks:
+  #     - docker-elk
+  #   depends_on:
+  #     - elasticsearch
 
 networks:
   docker-elk:

@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:sdk AS build
+FROM microsoft/dotnet:2.1-sdk AS build
 WORKDIR /app
 
 # Copy csproj and restore as distinct layers
@@ -12,7 +12,7 @@ WORKDIR /app/Service
 RUN dotnet restore
 
 # copy and publish app and libraries
-WORKDIR /app/
+WORKDIR /app
 
 COPY Domain/. ./Domain/
 COPY Entities/. ./Entities/
@@ -22,7 +22,8 @@ COPY Service/. ./Service/
 WORKDIR /app/Service
 RUN dotnet publish -c Release -o out
 
-FROM microsoft/dotnet:2.1-runtime AS runtime
+FROM microsoft/dotnet:2.1-aspnetcore-runtime AS runtime
 WORKDIR /app
 COPY --from=build /app/Service/out ./
+
 ENTRYPOINT ["dotnet", "Service.dll"]
