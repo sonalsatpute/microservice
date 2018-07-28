@@ -27,11 +27,11 @@ namespace Service
 
     static void Consumer(IConnection connection)
     {
-      if (!connection.Connect())
+      while (!connection.Connect())
       {
         Console.WriteLine("RabbitMQ: Connection fail");
-        //Thread.Sleep(TimeSpan.FromSeconds(30));
-        Environment.Exit(-1);
+        Thread.Sleep(TimeSpan.FromSeconds(10));
+        //Environment.Exit(-1);
       }
 
       Worker worker = new Worker();
