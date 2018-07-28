@@ -28,12 +28,12 @@ namespace Service
     {
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-      Settings setting = new Settings("rabbitmq")
+      Settings setting = new Settings(Configuration["rabbitmq_host"])
       {
         AppId = "microservice-sample-dotnetcore",
-        ExchangeName = "dev-exchange",
-        UserName = "sonal",
-        Password = "sonal",
+        ExchangeName = Configuration["rabbitmq_exchange"],
+        UserName = Configuration["rabbitmq_user"],
+        Password = Configuration["rabbitmq_password"],
         PrefetchCount = 3,
         Timeout = 10,
         VirtualHost = "/",
